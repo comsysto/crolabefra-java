@@ -1,0 +1,46 @@
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'maven-publish'
+
+
+group = 'com.comsysto.gradle'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
+    compile 'me.champeau.gradle:jmh-gradle-plugin:0.2.0'
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'crolabefra-java'
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            pom.withXml {
+                def Node pomRoot = asNode()
+                pomRoot.appendNode('name', 'CroLaBeFra Gradle Plugin for Java')
+                pomRoot.appendNode('url', 'https://github.com/comsysto/CroLaBeFra')
+
+                def developer = pomRoot.appendNode('developers').appendNode('developer');
+                developer.appendNode('id', 'bensteinert')
+                developer.appendNode('name', 'Benjamin Steinert')
+                developer.appendNode('organization', 'comSysto')
+                developer.appendNode('organizationUrl', 'http://comsysto.com')
+            }
+        }
+    }
+}
+
+
