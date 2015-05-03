@@ -1,6 +1,5 @@
-apply plugin: 'java-gradle-plugin'
+apply plugin: 'groovy'
 apply plugin: 'maven-publish'
-
 
 group = 'com.comsysto.gradle'
 version = '0.0.1-SNAPSHOT'
@@ -10,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    compile gradleApi()
+    compile localGroovy()
     compile 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
     compile 'me.champeau.gradle:jmh-gradle-plugin:0.2.0'
 }
