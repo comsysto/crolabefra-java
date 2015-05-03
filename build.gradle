@@ -1,5 +1,15 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
+    }
+}
+
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 group = 'com.comsysto.gradle'
 version = '0.0.1-SNAPSHOT'
@@ -41,6 +51,22 @@ publishing {
                 developer.appendNode('organizationUrl', 'http://comsysto.com')
             }
         }
+    }
+}
+
+bintray {
+    user = System.getProperty('bintrayUsername')
+    key = System.getProperty('bintrayKey')
+    dryRun = true
+    publish = false
+
+    publications = ['mavenJava']
+    pkg {
+        repo = 'crolabefra'
+        name = 'crolabefra-java'
+        desc = 'CroLaBeFra Gradle Plugin for Java Benchmarks with JMH'
+        licenses = ['Apache-2.0']
+        labels = ['jmh','gradle', 'crolabefra']
     }
 }
 
