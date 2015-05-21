@@ -12,6 +12,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'com.comsysto.gradle'
+version = new Version('0.1.0-SNAPSHOT')
+status = version.status
 
 repositories {
     jcenter()
@@ -24,8 +26,13 @@ dependencies {
     compile 'me.champeau.gradle:jmh-gradle-plugin:0.2.0'
 }
 
-task sourceJar(type: Jar, dependsOn: classes) {
+task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
 }
 
 publishing {
@@ -34,7 +41,7 @@ publishing {
             artifactId = 'crolabefra-java'
             from components.java
 
-            artifact sourceJar {
+            artifact sourcesJar {
                 classifier "sources"
             }
 
@@ -43,16 +50,16 @@ publishing {
                 pomRoot.appendNode('name', 'CroLaBeFra Gradle Plugin for Java')
                 pomRoot.appendNode('url', 'https://github.com/comsysto/crolabefra-java')
 
-                def issues = root.appendNode('issueManagement')
+                def issues = pomRoot.appendNode('issueManagement')
                 issues.appendNode('system', 'github')
                 issues.appendNode('url', 'https://github.com/comsysto/crolabefra-java/issues')
 
-                def scm = root.appendNode('scm')
+                def scm = pomRoot.appendNode('scm')
                 scm.appendNode('url', 'https://github.com/comsysto/crolabefra-java')
                 scm.appendNode('connection', 'scm:git:https://github.com/comsysto/crolabefra-java.git')
                 scm.appendNode('developerConnection', 'scm:git:git@github.com:comsysto/crolabefra-java.git')
 
-                def license = root.appendNode('licenses').appendNode('license');
+                def license = pomRoot.appendNode('licenses').appendNode('license');
                 license.appendNode('name', 'The Apache Software License, Version 2.0')
                 license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
                 license.appendNode('distribution', 'repo')
@@ -84,7 +91,43 @@ bintray {
         websiteUrl = 'https://github.com/comsysto/crolabefra-java'
         issueTrackerUrl = 'https://github.com/comsysto/crolabefra-java/issues'
         vcsUrl = 'https://github.com/comsysto/crolabefra-java'
-        vcsTag = '0.1.0'
+        version {
+            vcsTag = '0.1.0'
+        }
+    }
+}
+
+
+// Taken from https://github.com/bintray/bintray-examples/blob/master/gradle-multi-example/build.gradle
+
+import java.text.SimpleDateFormat
+class Version {
+    String originalVersion
+    String thisVersion
+    String status
+    Date buildTime
+
+    Version(String versionValue) {
+        buildTime = new Date()
+        originalVersion = versionValue
+        if (originalVersion.endsWith('-SNAPSHOT')) {
+            status = 'integration'
+            thisVersion = originalVersion.substring(0, originalVersion.length() - 'SNAPSHOT'.length()) + getTimestamp()
+        } else {
+            status = 'release'
+            thisVersion = versionValue
+        }
+    }
+
+    String getTimestamp() {
+        // Convert local file timestamp to UTC
+        def format = new SimpleDateFormat('yyyyMMddHHmmss')
+        format.setCalendar(Calendar.getInstance(TimeZone.getTimeZone('UTC')));
+        return format.format(buildTime)
+    }
+
+    String toString() {
+        thisVersion
     }
 }
 
