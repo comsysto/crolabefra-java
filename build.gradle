@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
     }
 }
 
@@ -57,14 +57,15 @@ publishing {
 bintray {
     user = System.getProperty('bintrayUsername')
     key = System.getProperty('bintrayKey')
-    dryRun = true
+    //dryRun = true
     publish = false
 
     publications = ['mavenJava']
     pkg {
+        userOrg = 'comsysto'
         repo = 'crolabefra'
         name = 'crolabefra-java'
-        desc = 'CroLaBeFra Gradle Plugin for Java Benchmarks with JMH'
+        desc = 'CroLaBeFra Gradle Plugin for Java micro benchmarks with JMH'
         licenses = ['Apache-2.0']
         labels = ['jmh','gradle', 'crolabefra']
     }
