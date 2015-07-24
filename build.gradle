@@ -38,7 +38,7 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'crolabefra-java'
+            artifactId = 'crolabefra-java-plugin'
             from components.java
 
             artifact sourcesJar {
@@ -84,7 +84,7 @@ bintray {
     pkg {
         userOrg = 'comsysto'
         repo = 'crolabefra'
-        name = 'crolabefra-java'
+        name = 'crolabefra-java-plugin'
         desc = 'CroLaBeFra Gradle Plugin for Java micro benchmarks with JMH'
         licenses = ['Apache-2.0']
         labels = ['jmh', 'gradle', 'crolabefra']
@@ -93,6 +93,9 @@ bintray {
         vcsUrl = 'https://github.com/comsysto/crolabefra-java'
         version {
             vcsTag = '0.1.0'
+            released  = new Date()
+            desc = 'Initial release'
+            attributes = ['gradle-plugin': 'com.comsysto.gradle.crolabefra.java:com.comsysto.gradle:crolabefra-java-plugin']
         }
     }
 }
