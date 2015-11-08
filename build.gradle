@@ -1,15 +1,21 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
     }
 }
 
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: "com.gradle.plugin-publish"
+
 
 group = 'com.comsysto.gradle'
 version = new Version('0.1.0')
@@ -33,6 +39,20 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 artifacts {
     archives sourcesJar
+}
+
+pluginBundle {
+    website = 'https://github.com/comsysto/crolabefra-java'
+    vcsUrl = 'https://github.com/comsysto/crolabefra-java'
+    description = 'CroLaBeFra Gradle Plugin for Java with Jmh'
+    tags = ['crolabefra', 'jmh', 'java', 'microbenchmarks']
+
+    plugins {
+        crolabefraJavaPlugin {
+            id = 'com.comsysto.gradle.crolabefra.java'
+            displayName = 'CroLaBeFra Gradle Plugin for Java with Jmh'
+        }
+    }
 }
 
 publishing {
@@ -92,7 +112,7 @@ bintray {
         issueTrackerUrl = 'https://github.com/comsysto/crolabefra-java/issues'
         vcsUrl = 'https://github.com/comsysto/crolabefra-java'
         version {
-            vcsTag = '0.1.0'
+            vcsTag = "${project.version}"
             released  = new Date()
             desc = 'Initial release'
             attributes = ['gradle-plugin': 'com.comsysto.gradle.crolabefra.java:com.comsysto.gradle:crolabefra-java-plugin']
