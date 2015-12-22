@@ -71,7 +71,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                     }
 
                     // Probably we need some more converter here ... (ops/s e.g.)
-                    assert benchmark.primaryMetric.scoreUnit == 'ns/op'
+                    assert benchmark.primaryMetric.scoreUnit == 'ms/op'
 
                     mappedResult.averageTime = benchmark.primaryMetric.score
                     mappedResult.fastestTime = benchmark.primaryMetric.scorePercentiles['0.0']
@@ -79,7 +79,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                     mappedResult.numberOfIterationsPerRun = benchmark.measurementIterations
                     mappedResult.numberOfRuns = benchmark.forks
                     mappedResult.totalTime = null
-                    mappedResult.unit = 'ns'
+                    mappedResult.unit = 'ms'
                     mappedResultList.add(mappedResult)
                 }
 
