@@ -70,6 +70,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                         mappedResult.name = className
                     }
 
+                    // Probably we need some more converter here ... (ops/s e.g.)
                     assert benchmark.primaryMetric.scoreUnit == 'ns/op'
 
                     mappedResult.averageTime = benchmark.primaryMetric.score
@@ -82,7 +83,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                     mappedResultList.add(mappedResult)
                 }
 
-                // write mapped results back to dest file
+                // write mapped results back to dest files
                 File destFile = new File(project.buildDir, 'results/crolabefra-java.json')
                 destFile.getParentFile().mkdirs()
                 if (destFile.exists()) {
@@ -93,6 +94,25 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                 destFile.withWriter('UTF-8', { writer ->
                     writer.write(JsonOutput.prettyPrint(JsonOutput.toJson(mappedResultList)))
                 })
+
+                // check whether mothership is reachable
+                def rootProject = project.getRootProject()
+                if (rootProject.getTasksByName('crolabefra', false)) {
+                    println('Mothership is there :)')
+                    // write mapped results back to dest file
+                    File rootDestFile = new File(rootProject.buildDir, 'results/data/crolabefra-java.js')
+                    rootDestFile.getParentFile().mkdirs()
+                    if (rootDestFile.exists()) {
+                        rootDestFile.delete()
+                    }
+                    rootDestFile.createNewFile();
+                    rootDestFile.withWriter('UTF-8', { writer ->
+                        writer.write("crolabefra.data.java = ")
+                        writer.write(JsonOutput.prettyPrint(JsonOutput.toJson(mappedResultList)))
+                    })
+                } else {
+                    println('No mothership :(')
+                }
             }
         }
     }
