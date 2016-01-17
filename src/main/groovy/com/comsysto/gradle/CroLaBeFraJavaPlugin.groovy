@@ -22,7 +22,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
         extension.jmhVersion = "1.11.2"
         extension.resultFormat = "JSON"
 
-        project.tasks.create(
+        def crolabefraJava = project.tasks.create(
                 [
                         name     : 'runJavaBenchmarks',
                         group    : 'crolabefra',
@@ -33,19 +33,8 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                 }
         )
 
-        def mapResultsTask = project.tasks.create(
-                [
-                        name : 'mapJavaResults',
-                        group: 'crolabefra'//,
-                        //dependsOn: ['runCppBenchmarks'],
-                ],
-                {
-                    mustRunAfter 'runJavaBenchmarks'
-                    description 'Converts JMH benchmark results to CroLaBeFra format'
-                }
-        )
 
-        mapResultsTask.doFirst {
+        crolabefraJava.doLast {
             File file = new File(project.buildDir, 'reports/jmh/results.txt')
             if (file.exists()) {
 
@@ -100,7 +89,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
                 if (rootProject.getTasksByName('crolabefra', false)) {
                     println('Mothership is there :)')
                     // write mapped results back to dest file
-                    File rootDestFile = new File(rootProject.buildDir, 'results/data/crolabefra-java.js')
+                    File rootDestFile = new File(rootProject.buildDir, 'results/mothership/data/crolabefra-java.js')
                     rootDestFile.getParentFile().mkdirs()
                     if (rootDestFile.exists()) {
                         rootDestFile.delete()
