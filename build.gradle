@@ -114,7 +114,7 @@ bintray {
         version {
             vcsTag = "${project.version}"
             released  = new Date()
-            desc = 'Feature release'
+            desc = 'Initial release'
             attributes = ['gradle-plugin': 'com.comsysto.gradle.crolabefra.java:com.comsysto.gradle:crolabefra-java-plugin']
         }
     }
