@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.comsysto.gradle'
-version = new Version('0.2.0')
+version = new Version('0.2.1')
 status = version.status
 
 repositories {
@@ -101,8 +101,8 @@ bintray {
         vcsUrl = 'https://github.com/comsysto/crolabefra-java'
         version {
             vcsTag = "${project.version}"
-            released = new Date()
-            desc = 'Initial release'
+            released  = new Date()
+            desc = 'Feature release'
             attributes = ['gradle-plugin': 'com.comsysto.gradle.crolabefra.java:com.comsysto.gradle:crolabefra-java-plugin']
         }
     }
