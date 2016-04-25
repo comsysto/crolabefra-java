@@ -1,21 +1,9 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.5'
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.3"
-    }
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version "1.6"
+    id 'com.gradle.plugin-publish' version "0.9.4"
 }
-
-apply plugin: 'groovy'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: "com.gradle.plugin-publish"
-
 
 group = 'com.comsysto.gradle'
 version = new Version('0.3.0-SNAPSHOT')
@@ -28,7 +16,7 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+    compile 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     compile 'me.champeau.gradle:jmh-gradle-plugin:0.2.0'
 }
 
@@ -113,17 +101,17 @@ bintray {
         vcsUrl = 'https://github.com/comsysto/crolabefra-java'
         version {
             vcsTag = "${project.version}"
-            released  = new Date()
+            released = new Date()
             desc = 'Initial release'
             attributes = ['gradle-plugin': 'com.comsysto.gradle.crolabefra.java:com.comsysto.gradle:crolabefra-java-plugin']
         }
     }
 }
 
-
 // Taken from https://github.com/bintray/bintray-examples/blob/master/gradle-multi-example/build.gradle
 
 import java.text.SimpleDateFormat
+
 class Version {
     String originalVersion
     String thisVersion

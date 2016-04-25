@@ -19,7 +19,7 @@ class CroLaBeFraJavaPlugin implements Plugin<Project> {
         project.plugins.apply(JMHPlugin)
 
         def extension = project.getExtensions().findByType(JMHPluginExtension)
-        extension.jmhVersion = "1.11.2"
+        extension.jmhVersion = "1.12"
         extension.resultFormat = "JSON"
 
         def crolabefraJava = project.tasks.create(
