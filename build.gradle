@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.comsysto.gradle'
-version = new Version('0.2.1')
+version = new Version('0.2.2')
 status = version.status
 
 repositories {
