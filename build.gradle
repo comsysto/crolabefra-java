@@ -1,7 +1,7 @@
 plugins {
     id 'groovy'
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.6"
+    id "com.jfrog.bintray" version "1.5"
     id 'com.gradle.plugin-publish' version "0.9.4"
 }
 
@@ -101,7 +101,7 @@ bintray {
         vcsUrl = 'https://github.com/comsysto/crolabefra-java'
         version {
             vcsTag = "${project.version}"
-            released  = new Date()
+            released = new Date()
             desc = 'Feature release'
             attributes = ['gradle-plugin': 'com.comsysto.gradle.crolabefra.java:com.comsysto.gradle:crolabefra-java-plugin']
         }
